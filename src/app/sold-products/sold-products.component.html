@@ -1,0 +1,8 @@
+<div class="sold-products" *ngIf="products">
+  <h2>Sold products list <span *ngIf="targetValue">(target value: {{targetValue}})</span></h2>
+  <ul>
+    <li *ngFor="let product of products">
+      <span>{{product.label}}</span>, value: {{product.value}}
+    </li>
+  </ul>
+</div>
