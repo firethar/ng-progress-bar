@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map, share } from 'rxjs/operators';
 import { Product } from '../product';
 import { ProductService } from '../product.service';
 
@@ -9,23 +11,15 @@ import { ProductService } from '../product.service';
 })
 export class SoldProductsComponent implements OnInit {
 
-  products: Product[] = [];
-  targetValue: number = 0;
+  products$: Observable<Product[]> = this.productService.getSoldProducts().pipe(
+    map(val => val.data)
+  );
+  targetValue$: Observable<number> = this.productService.getSoldProducts().pipe(
+    map(val => val.totalValue)
+  );
 
   constructor(private productService: ProductService) { }
 
-  ngOnInit(): void {
-    this.getTargetValue();
-    this.getProducts();
-  }
+  ngOnInit(): void {  }
 
-  getProducts(): void {
-    this.productService.getProductsData()
-      .subscribe(products => this.products = products);
-  }
-
-  getTargetValue(): void {
-    this.productService.getSoldProductsTargetValue()
-      .subscribe(val => this.targetValue = val);
-  }
 }
