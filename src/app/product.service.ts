@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
 
 import { Product } from './product';
 import { SoldProducts } from './product';
@@ -11,19 +12,19 @@ import { SoldProducts } from './product';
   providedIn: 'root'
 })
 export class ProductService {
-  private productsUrl = 'https://private-anon-cfb1043af1-swoproducts.apiary-mock.com/soldProducts'; 
+  private productsURL = `${environment.baseURL}/soldProducts`; 
 
   constructor(private http: HttpClient) { }
 
   /** GET soldProducts from the server */
   getSoldProducts(): Observable<SoldProducts> {
-    return this.http.get<SoldProducts>(this.productsUrl);
+    return this.http.get<SoldProducts>(this.productsURL);
   }
 
 
   /** GET productsTargetValue from the server */
   getSoldProductsTargetValue(): Observable<any> {
-    return this.http.get<SoldProducts>(this.productsUrl).pipe(
+    return this.http.get<SoldProducts>(this.productsURL).pipe(
       map(soldProducts => soldProducts.totalValue),
       catchError(this.handleError('getSoldProductsTargetValue'))
     );
@@ -31,7 +32,7 @@ export class ProductService {
 
   /** GET productsData from the server */
   getProductsData(): Observable<Product[]> {
-    return this.http.get<SoldProducts>(this.productsUrl).pipe(
+    return this.http.get<SoldProducts>(this.productsURL).pipe(
       map(soldProducts => soldProducts.data),
       catchError(this.handleError('getProductsData', []))
     );
