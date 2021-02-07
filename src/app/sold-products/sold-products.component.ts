@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, share } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Product } from '../product';
 import { ProductService } from '../product.service';
 
@@ -17,9 +17,10 @@ export class SoldProductsComponent implements OnInit {
   targetValue$: Observable<number> = this.productService.getSoldProducts().pipe(
     map(val => val.totalValue)
   );
+  progress$: Observable<number> = this.productService.getProgressValue();
 
   constructor(private productService: ProductService) { }
 
-  ngOnInit(): void {  }
+  ngOnInit(): void { }
 
 }
