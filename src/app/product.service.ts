@@ -27,15 +27,6 @@ export class ProductService {
       );
     }
     return this.productsData$;
-
-  }
-
-  getTargetValue(): Observable<number> {
-    return this.getSoldProducts().pipe(
-      map((val: SoldProducts): number => {
-        return val.totalValue;
-      })
-    );
   }
 
 }
