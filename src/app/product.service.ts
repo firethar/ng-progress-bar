@@ -4,7 +4,7 @@ import { map, publishReplay, refCount } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 
-import { SoldProducts } from './product';
+import { Product, SoldProducts } from './product';
 
 
 @Injectable({
@@ -32,10 +32,9 @@ export class ProductService {
   getProgressValue(): Observable<number> {
     return this.getSoldProducts().pipe(
       map((productsData: SoldProducts) => {
-        let total: number = 0 ;
-        productsData.data.forEach( product => {
-          return total += product.value;
-        });
+        const total: number = productsData.data.reduce((total:number, product:Product) => {
+          return total + product.value;
+        }, 0);
         return this.calculateProgress(total, productsData.totalValue);
       })
     );
