@@ -1,4 +1,4 @@
-<app-progress-bar></app-progress-bar>
+<app-progress-bar [progressValue]="progress$ | async"></app-progress-bar>
 <div class="sold-products" *ngIf="products$ | async as products">
   <h2>Sold products list <span *ngIf="targetValue$ | async as targetValue">(target value: {{targetValue}})</span></h2>
   <ul>
