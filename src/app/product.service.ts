@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, publishReplay, refCount } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
@@ -27,6 +27,27 @@ export class ProductService {
       );
     }
     return this.productsData$;
+  }
+
+  getProgressValue(): Observable<number> {
+    return this.getSoldProducts().pipe(
+      map((productsData: SoldProducts) => {
+        let total: number = 0 ;
+        productsData.data.forEach( product => {
+          return total += product.value;
+        });
+        return this.calculateProgress(total, productsData.totalValue);
+      })
+    );
+  }
+
+  calculateProgress(total: number, targetValue: number): number {
+    const calculatedProgress = Math.round(100 * total / targetValue);
+    if (calculatedProgress < 0 ) {
+      return 0;
+    } else {
+      return calculatedProgress > 100 ? 100 : calculatedProgress;
+    }
   }
 
 }
