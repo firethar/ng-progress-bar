@@ -6,13 +6,13 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./progress-bar.component.scss']
 })
 export class ProgressBarComponent implements OnInit {
-  _progressValue: number | null = 0;
+  _progressValue: number = 0;
   
-  @Input() set progressValue(value: number | null) {
+  @Input() set progressValue(value: number) {
     this._progressValue = value;
   }
   
-  get progressValue(): number | null {
+  get progressValue(): number {
     return this._progressValue;
   }
 
