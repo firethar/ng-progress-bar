@@ -22,4 +22,17 @@ describe('ProgressBarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('Input should set _progressValue', () => {
+    component.progressValue = 50;
+    expect(component._progressValue).toEqual(50);
+  });
+  
+  it('should correctly render the passed @Input value', () => {
+    component._progressValue = 55;
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('h2').textContent).toBe('We already sold 55% of out products'); // 3
+  });
+
 });
