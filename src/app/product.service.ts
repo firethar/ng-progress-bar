@@ -13,35 +13,31 @@ import { Product, SoldProducts } from './product';
 export class ProductService {
   private productsURL = `${environment.baseURL}/soldProducts`; 
 
-  productsData$?: Observable<SoldProducts>;
+  /** GET soldProducts data from the server */
+  productsData$: Observable<SoldProducts> = this.http.get<SoldProducts>(this.productsURL).pipe(
+    publishReplay(1),
+    refCount()
+  );
+
+  /** get progress value to display in progress-bar component */
+  progressValue$:Observable<number> = this.productsData$.pipe(
+    map((productsData: SoldProducts) => {
+      return this.calculateProgress(productsData, productsData.totalValue);
+    })
+  );
 
   constructor(private http: HttpClient) { }
 
-  /** GET soldProducts from the server */
-  getSoldProducts(): Observable<SoldProducts> {
-    // Cache it once if productsData$ value is false
-    if (!this.productsData$) {
-      this.productsData$ = this.http.get<SoldProducts>(this.productsURL).pipe(
-        publishReplay(1),
-        refCount()
-      );
-    }
-    return this.productsData$;
-  }
+  calculateProgress(productsData: SoldProducts, targetValue: number): number {
+    /** get total value of sold products */
+    const total: number = productsData.data.reduce((total:number, product:Product) => {
+      return total + product.value;
+    }, 0);
 
-  getProgressValue(): Observable<number> {
-    return this.getSoldProducts().pipe(
-      map((productsData: SoldProducts) => {
-        const total: number = productsData.data.reduce((total:number, product:Product) => {
-          return total + product.value;
-        }, 0);
-        return this.calculateProgress(total, productsData.totalValue);
-      })
-    );
-  }
-
-  calculateProgress(total: number, targetValue: number): number {
+    /** calculate progress */
     const calculatedProgress = Math.round(100 * total / targetValue);
+
+    /** validate progress to be in range 0-100 */
     if (calculatedProgress < 0 ) {
       return 0;
     } else {
