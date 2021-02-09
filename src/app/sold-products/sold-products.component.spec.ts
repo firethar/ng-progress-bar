@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductService } from '../product.service';
+import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
 
 import { SoldProductsComponent } from './sold-products.component';
 
@@ -13,12 +13,12 @@ describe('SoldProductsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        HttpClientModule
+        HttpClientModule,
       ],
-      declarations: [ SoldProductsComponent ],
-      schemas: [
-        CUSTOM_ELEMENTS_SCHEMA
-      ],
+      declarations: [ 
+        SoldProductsComponent,
+        ProgressBarComponent
+      ]
     })
     .compileComponents();
   });
