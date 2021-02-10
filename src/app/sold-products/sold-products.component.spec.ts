@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductService } from '../product.service';
-import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
 
 import { SoldProductsComponent } from './sold-products.component';
 
@@ -16,8 +16,10 @@ describe('SoldProductsComponent', () => {
         HttpClientModule,
       ],
       declarations: [ 
-        SoldProductsComponent,
-        ProgressBarComponent
+        SoldProductsComponent
+      ],
+      schemas: [
+        NO_ERRORS_SCHEMA
       ]
     })
     .compileComponents();
@@ -36,20 +38,6 @@ describe('SoldProductsComponent', () => {
  
   it('service should be injected', () => {
     expect(service).toBeTruthy();
-  });
-
-  it('should get products$ Observable', (done) => {
-    component.products$.subscribe(value => {
-      expect(value).toBeTruthy();
-      done();
-    });
-  });
-
-  it('should get targetValue$ Observable', (done) => {
-    component.targetValue$.subscribe(value => {
-      expect(value).toBeTruthy();
-      done();
-    });
   });
 
 });
