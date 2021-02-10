@@ -1,10 +1,5 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
-// import { doesNotReject } from 'assert';
-// import { of } from 'rxjs';
-// import { toArray } from 'rxjs/operators';
-// import { TestScheduler } from 'rxjs/testing';
 import { SoldProducts } from './product';
 
 import { ProductService } from './product.service';
@@ -60,14 +55,6 @@ describe('ProductService', () => {
   it('should calculate progress to be less than 100 or equal when totalValue is lower then totalSoldProductsValue', () => {
     const progressValue = service.calculateProgress(productsData, 100);
     expect(progressValue).toEqual(100);
-  });
-
-  it('should get progressValue$ Observable', (done) => {
-    service.progressValue$.subscribe(value => {
-      expect(value).toBeGreaterThan(0);
-      expect(value).toBeLessThan(100);
-      done();
-    });
   });
 
 });
