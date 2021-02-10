@@ -35,10 +35,13 @@ export class ProductService {
     }, 0);
 
     /** calculate progress */
+    if (targetValue === 0) {
+      return 0;
+    }
     const calculatedProgress = Math.round(100 * total / targetValue);
 
     /** validate progress to be in range 0-100 */
-    if (calculatedProgress < 0 ) {
+    if (calculatedProgress < 0) {
       return 0;
     } else {
       return calculatedProgress > 100 ? 100 : calculatedProgress;
