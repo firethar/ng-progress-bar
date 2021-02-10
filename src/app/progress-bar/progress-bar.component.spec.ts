@@ -32,7 +32,7 @@ describe('ProgressBarComponent', () => {
     component._progressValue = 55;
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h2').textContent).toBe('We already sold 55% of out products'); // 3
+    expect(compiled.querySelector('h2').textContent).toContain('55%');
   });
 
 });
