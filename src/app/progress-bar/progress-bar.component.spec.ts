@@ -29,7 +29,7 @@ describe('ProgressBarComponent', () => {
   });
   
   it('should correctly render the passed @Input value', () => {
-    component._progressValue = 55;
+    component.progressValue = 55;
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h2').textContent).toContain('55%');
