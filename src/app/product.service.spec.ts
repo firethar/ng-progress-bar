@@ -30,12 +30,12 @@ describe('ProductService', () => {
   });
   
   it('should get productsData$ from URL', () => {
-    service.productsData$.subscribe( products => {
+    service.productsData$.subscribe(products => {
+      expect(req.request.method).toBe("GET");
       expect(products.data.length).toEqual(3);
     });
     //httpTestingController mocks requests
     const req = httpTestingController.expectOne(URL);
-    expect(req.request.method).toBe("GET");
     //fluch provides dummy values as response
     req.flush(productsData);
 
