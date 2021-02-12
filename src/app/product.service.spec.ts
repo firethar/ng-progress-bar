@@ -4,28 +4,13 @@ import { environment } from 'src/environments/environment';
 import { SoldProducts } from './product';
 
 import { ProductService } from './product.service';
+import { mockData } from '../mocks/mock-data';
 
 describe('ProductService', () => {
   let service: ProductService;
   let httpTestingController: HttpTestingController;
   const URL = `${environment.baseURL}/soldProducts`;
-  const productsData: SoldProducts = {
-    "data": [
-      {
-        "label": "Product 1",
-        "value": 100
-      },
-      {
-        "label": "Product 2",
-        "value": 125
-      },
-      {
-        "label": "Product 3",
-        "value": 200
-      }
-    ],
-    "totalValue": 1000 
-  };
+  const productsData: SoldProducts = mockData;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

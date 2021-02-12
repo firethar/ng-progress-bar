@@ -1,6 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { mockData } from 'src/mocks/mock-data';
 import { SoldProducts } from '../product';
 import { ProductService } from '../product.service';
 
@@ -13,23 +14,7 @@ describe('SoldProductsComponent', () => {
   let SOLD_PRODUCTS: SoldProducts; 
 
   beforeEach( () => {
-    SOLD_PRODUCTS = {
-      "data": [
-        {
-          "label": "Product 1",
-          "value": 100
-        },
-        {
-          "label": "Product 2",
-          "value": 125
-        },
-        {
-          "label": "Product 3",
-          "value": 200
-        }
-      ],
-      "totalValue": 1000 
-    };
+    SOLD_PRODUCTS = mockData;
 
     mockProductsService = jasmine.createSpyObj(['productsData$','calculateProgress']);
     mockProductsService.productsData$ = of(SOLD_PRODUCTS);
