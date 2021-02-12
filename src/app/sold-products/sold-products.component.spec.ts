@@ -53,9 +53,5 @@ describe('SoldProductsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
- 
-  it('have injected service', () => {
-    expect(mockProductsService).toBeTruthy();
-  });
 
 });
