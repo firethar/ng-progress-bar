@@ -30,7 +30,9 @@ describe('ProductService', () => {
   });
   
   it('should get productsData$ from URL', () => {
-    service.productsData$.subscribe();
+    service.productsData$.subscribe( products => {
+      expect(products.data.length).toEqual(3);
+    });
     //httpTestingController mocks requests
     const req = httpTestingController.expectOne(URL);
     expect(req.request.method).toBe("GET");
