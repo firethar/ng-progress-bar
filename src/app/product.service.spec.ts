@@ -1,13 +1,14 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { environment } from 'src/environments/environment';
 import { SoldProducts } from './product';
 
 import { ProductService } from './product.service';
 
 describe('ProductService', () => {
   let service: ProductService;
-  let httpTestingController: HttpTestingController
-  const URL = 'https://private-anon-cfb1043af1-swoproducts.apiary-mock.com/soldProducts';
+  let httpTestingController: HttpTestingController;
+  const URL = `${environment.baseURL}/soldProducts`;
   const productsData: SoldProducts = {
     "data": [
       {
@@ -50,7 +51,7 @@ describe('ProductService', () => {
     expect(req.request.method).toBe("GET");
     //fluch provides dummy values as response
     req.flush(productsData);
-    
+
     //to make sure that there are no outstanding requests
     httpTestingController.verify();
   });
