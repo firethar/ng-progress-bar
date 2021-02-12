@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { SoldProducts } from './product';
 
@@ -6,6 +6,8 @@ import { ProductService } from './product.service';
 
 describe('ProductService', () => {
   let service: ProductService;
+  let httpTestingController: HttpTestingController
+  const URL = 'https://private-anon-cfb1043af1-swoproducts.apiary-mock.com/soldProducts';
   const productsData: SoldProducts = {
     "data": [
       {
@@ -24,22 +26,33 @@ describe('ProductService', () => {
     "totalValue": 1000 
   };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [
-        HttpClientModule
-      ]
-    }).compileComponents();
-
-  });
-
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule
+      ],
+      providers: [
+        ProductService
+      ]
+    });
+    httpTestingController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(ProductService);
   });
-
+  
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+  
+  it('should get productsData$ from URL', () => {
+    service.productsData$.subscribe();
+    //httpTestingController mocks requests
+    const req = httpTestingController.expectOne(URL);
+    expect(req.request.method).toBe("GET");
+    //fluch provides dummy values as response
+    req.flush(productsData);
+    
+    //to make sure that there are no outstanding requests
+    httpTestingController.verify();
   });
 
   it('should calculate progress to be 0 when negative totalValue', () => {
