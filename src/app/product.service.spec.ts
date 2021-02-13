@@ -1,45 +1,46 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { environment } from 'src/environments/environment';
 import { SoldProducts } from './product';
 
 import { ProductService } from './product.service';
+import { mockData } from '../mocks/mock-data';
 
 describe('ProductService', () => {
   let service: ProductService;
-  const productsData: SoldProducts = {
-    "data": [
-      {
-        "label": "Product 1",
-        "value": 100
-      },
-      {
-        "label": "Product 2",
-        "value": 125
-      },
-      {
-        "label": "Product 3",
-        "value": 200
-      }
-    ],
-    "totalValue": 1000 
-  };
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [
-        HttpClientModule
-      ]
-    }).compileComponents();
-
-  });
+  let httpTestingController: HttpTestingController;
+  const URL = `${environment.baseURL}/soldProducts`;
+  const productsData: SoldProducts = mockData;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule
+      ],
+      providers: [
+        ProductService
+      ]
+    });
+    httpTestingController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(ProductService);
   });
-
+  
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+  
+  it('should get productsData$ from URL', () => {
+    service.productsData$.subscribe(products => {
+      expect(req.request.method).toBe("GET");
+      expect(products.data.length).toEqual(3);
+    });
+    //httpTestingController mocks requests
+    const req = httpTestingController.expectOne(URL);
+    //fluch provides dummy values as response
+    req.flush(productsData);
+
+    //to make sure that there are no outstanding requests
+    httpTestingController.verify();
   });
 
   it('should calculate progress to be 0 when negative totalValue', () => {

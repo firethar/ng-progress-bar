@@ -1,6 +1,8 @@
-import { HttpClientModule } from '@angular/common/http';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+import { mockData } from 'src/mocks/mock-data';
+import { SoldProducts } from '../product';
 import { ProductService } from '../product.service';
 
 import { SoldProductsComponent } from './sold-products.component';
@@ -8,36 +10,33 @@ import { SoldProductsComponent } from './sold-products.component';
 describe('SoldProductsComponent', () => {
   let component: SoldProductsComponent;
   let fixture: ComponentFixture<SoldProductsComponent>;
-  let service: ProductService;
+  let mockProductsService: ProductService;
+  let SOLD_PRODUCTS: SoldProducts; 
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [
-        HttpClientModule,
-      ],
+  beforeEach( () => {
+    SOLD_PRODUCTS = mockData;
+
+    mockProductsService = jasmine.createSpyObj(['productsData$','calculateProgress']);
+    mockProductsService.productsData$ = of(SOLD_PRODUCTS);
+
+    TestBed.configureTestingModule({
       declarations: [ 
         SoldProductsComponent
+      ],
+      providers: [
+        { provide: ProductService, useValue: mockProductsService }
       ],
       schemas: [
         NO_ERRORS_SCHEMA
       ]
-    })
-    .compileComponents();
-  });
+    });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SoldProductsComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
-    service = TestBed.inject(ProductService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
- 
-  it('service should be injected', () => {
-    expect(service).toBeTruthy();
   });
 
 });
